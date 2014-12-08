@@ -589,6 +589,11 @@ bool idItem::GiveToPlayer( idPlayer *player ) {
 	if ( player == NULL ) {
 		return false;
 	}
+	
+	//player->caffinated += 1;
+	//gameLocal.Printf("%i", player->caffinated);
+	//gameLocal.Printf("%s %i %s", "Caffinated: ", player->caffinated, "\n");
+
 
 	if ( spawnArgs.GetBool( "inv_carry" ) ) {
 		return player->GiveInventoryItem( &spawnArgs );
@@ -748,6 +753,9 @@ bool idItem::Pickup( idPlayer *player ) {
 			PostEventMS( &EV_Remove, 5000 );
 		}
 	}
+	 
+	player->caffinated++;
+	gameLocal.Printf("%i", player->caffinated);
 	
 	trigger->SetContents( 0 );	
 	
@@ -906,6 +914,7 @@ void idItem::Event_Pickup( int clientNum ) {
 		player = (idPlayer*)gameLocal.entities[ clientNum ];
 		player->lastPickupTime = gameLocal.time;
 		if ( player ) {
+			player->Caffinate();
 			player->GiveItem( this );
 		}
 	}

@@ -143,7 +143,7 @@ public:
 	void					Restore( idRestoreGame *savefile );
 
 	void					Spawn();
-	virtual bool			GiveToPlayer( idPlayer *player );
+	virtual bool			GiveToPlayer( idPlayer *player ); //this is what i wanted to find!
 	virtual void			Think( void );
 	virtual bool			Pickup( idPlayer *player );
 

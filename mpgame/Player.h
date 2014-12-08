@@ -508,6 +508,7 @@ public:
 	bool					Give( const char *statname, const char *value, bool dropped = false );
 	bool					GiveItem( idItem *item );
 	void					GiveItem( const char *name );
+	void					Caffinate( void );
 	
 	// Inventory
 	bool					GiveInventoryItem( idDict *item );
@@ -1018,6 +1019,7 @@ private:
 	void					CrashLand( const idVec3 &oldOrigin, const idVec3 &oldVelocity );
 	void					BobCycle( const idVec3 &pushVelocity );
 	void					EvaluateControls( void );
+	
 	void					AdjustSpeed( void );
 	void					AdjustBodyAngles( void );
 	void					Move( void );
@@ -1138,6 +1140,9 @@ private:
 	stateResult_t			State_Legs_Fall					( const stateParms_t& parms );
 	stateResult_t			State_Legs_Land					( const stateParms_t& parms );
 	stateResult_t			State_Legs_Dead					( const stateParms_t& parms );
+
+	public:
+		int						caffinated;
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 };

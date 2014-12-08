@@ -67,7 +67,7 @@ const int	ARMOR_PULSE			= 1000;			// armor ticking down due to being higher than
 const int	AMMO_REGEN_PULSE	= 1000;			// ammo regen in Arena CTF
 const int	POWERUP_BLINKS		= 5;			// Number of times the powerup wear off sound plays
 const int	POWERUP_BLINK_TIME	= 1000;			// Time between powerup wear off sounds
-const float MIN_BOB_SPEED		= 5.0f;			// minimum speed to bob and play run/walk animations at
+const float MIN_BOB_SPEED		= 0;//5.0f;			// minimum speed to bob and play run/walk animations at
 const int	MAX_RESPAWN_TIME	= 10000;
 const int	RAGDOLL_DEATH_TIME	= 3000;
 #ifdef _XENON
@@ -828,6 +828,9 @@ idInventory::Give
 If checkOnly is true, check only for possibility of adding to inventory, don't actually add
 ==============
 */
+/*void idPlayer::Caffinate (void)
+{
+}*/
 bool idInventory::Give( idPlayer *owner, const idDict &spawnArgs, const char *statname, const char *value, int *idealWeapon, bool updateHud, bool dropped, bool checkOnly ) {
 	int						i;
 	const char				*pos;
@@ -1081,6 +1084,7 @@ idPlayer::idPlayer() {
 
 	noclip					= false;
 	godmode					= false;
+	caffinated				= 1;
 	undying					= g_forceUndying.GetBool() ? !gameLocal.isMultiplayer : false;
 
 	spawnAnglesSet			= false;
@@ -5400,12 +5404,12 @@ void idPlayer::RemoveInventoryItem( idDict *item ) {
 	inventory.items.Remove( item );
 	delete item;
 }
-
 /*
 ===============
 idPlayer::GiveItem
 ===============
 */
+
 void idPlayer::GiveItem( const char *itemname ) {
 	idDict	args;
 
@@ -7686,6 +7690,7 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	viewBob += bob * -gravityDir;
 // RAVEN END
 
+
 	// add fall height
 	delta = gameLocal.time - landTime;
 	if ( delta < LAND_DEFLECT_TIME ) {
@@ -8681,13 +8686,23 @@ void idPlayer::EvaluateControls( void ) {
 	UpdateViewAngles();
 }
 
+void idPlayer::Caffinate(void)
+{
+	caffinated ++;
+	gameLocal.Printf("%i", caffinated);
+}
 /*
 ==============
 idPlayer::AdjustSpeed
 ==============
 */
+
 void idPlayer::AdjustSpeed( void ) {
 	float speed;
+	float caffSpeed;
+
+	caffSpeed = 0;
+
 
 	if ( spectating ) {
 		speed = pm_spectatespeed.GetFloat();
@@ -8702,8 +8717,22 @@ void idPlayer::AdjustSpeed( void ) {
 		speed = pm_walkspeed.GetFloat();
 		bobFrac = 0.0f;
 	}
+	
+	/*caffSpeed = 320 * caffinated;
+	
+	if(caffinated > 0)
+		speed = 800 * caffinated;
+	else 
+		speed = 200;
+		*/
+
+	//gameLocal.Printf("%f", speed);
+
+	if(caffinated != NULL)
+		speed = 250 * caffinated;
 
 	speed *= PowerUpModifier(PMOD_SPEED);
+
 
 	if ( influenceActive == INFLUENCE_LEVEL3 ) {
 		speed *= 0.33f;
@@ -10418,7 +10447,6 @@ void idPlayer::SetPrivateCameraView( idCamera *camView ) {
 		}
 	}
 }
-
 /*
 ====================
 idPlayer::DefaultFov
