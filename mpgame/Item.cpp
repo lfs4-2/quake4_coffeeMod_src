@@ -754,8 +754,8 @@ bool idItem::Pickup( idPlayer *player ) {
 		}
 	}
 	 
-	player->caffinated++;
-	gameLocal.Printf("%i", player->caffinated);
+	//player->caffinated++;
+	//gameLocal.Printf("%i", player->caffinated);
 	
 	trigger->SetContents( 0 );	
 	

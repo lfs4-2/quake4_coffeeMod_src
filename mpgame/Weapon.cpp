@@ -2599,7 +2599,16 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
 			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
 		} else {
-			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, fuseOffset, power );
+			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks * owner->caffinated, spread, fuseOffset, power );
+			/*if(owner->caffinated > 1)
+			{
+				gameLocal.Printf("Coffee fire:  '%i' \n", owner->caffinated);
+				for(int i = 0; i < owner->caffinated; i ++)
+				{
+					
+				}
+			}*/
+			
 		}
 		//asalmon:  changed to keep stats even in single player 
 		statManager->WeaponFired( owner, weaponIndex, num_attacks );

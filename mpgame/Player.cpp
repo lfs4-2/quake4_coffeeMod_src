@@ -8997,7 +8997,7 @@ void idPlayer::Move( void ) {
 
 	// set physics variables
 	physicsObj.SetMaxStepHeight( pm_stepsize.GetFloat() );
-	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() );
+	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() * caffinated );
 
 	if ( noclip ) {
 		physicsObj.SetContents( 0 );
@@ -9035,6 +9035,7 @@ void idPlayer::Move( void ) {
 	if ( health <= 0 ) {
 		if ( gameLocal.isNewFrame ) {
 			DeathPush();
+			caffinated = 1;
 			RunPhysics();
 		}
 	} else { 
