@@ -7576,6 +7576,7 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	float		delta;
 	float		speed;
 	float		f;
+	int			caffBob;
 
 
 	//
@@ -7685,11 +7686,19 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	if ( bob > 6 ) {
 		bob = 6;
 	}
+
+	//LOU BEGIN
+	/*if(caffinated > 1)
+	{
+		caffBob = 15 * caffinated;
+	}
+	else*/ 
+		caffBob = 1;
+	//LOU END
 // RAVEN BEGIN
 // abahr: added gravity
-	viewBob += bob * -gravityDir;
+	viewBob += bob * -(gravityDir * (caffBob));
 // RAVEN END
-
 
 	// add fall height
 	delta = gameLocal.time - landTime;

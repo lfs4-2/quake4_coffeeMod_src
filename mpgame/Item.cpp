@@ -638,6 +638,7 @@ idItem::Pickup
 ================
 */
 bool idItem::Pickup( idPlayer *player ) {
+	float caffTime;
 	//dropped weapon?
 	bool dropped = spawnArgs.GetBool( "dropped" );
 
@@ -754,9 +755,19 @@ bool idItem::Pickup( idPlayer *player ) {
 		}
 	}
 	 
-	//player->caffinated++;
-	//gameLocal.Printf("%i", player->caffinated);
+	player->caffinated++;
+	caffTime = (gameLocal.realClientTime += 5000);
+	/*if(spawnArgs.GetString("classname"))
+	{
+		gameLocal.Printf(spawnArgs.GetString("classname"));
+	}
+	else
+		gameLocal.Printf("wrong");
+	*/
+	//gameLocal.Printf("Current game time: %i \n", gameLocal.realClientTime);
 	
+	//gameLocal.Printf("Current game time: %f", caffTime);
+
 	trigger->SetContents( 0 );	
 	
 	StopEffect( "fx_idle" );
