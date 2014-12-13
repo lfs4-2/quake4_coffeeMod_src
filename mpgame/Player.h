@@ -1143,6 +1143,9 @@ private:
 
 	public:
 		int						caffinated;
+		float					timeTillCrash;
+		bool					buzzed;
+		bool					crashed;
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 };

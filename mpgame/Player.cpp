@@ -1085,6 +1085,9 @@ idPlayer::idPlayer() {
 	noclip					= false;
 	godmode					= false;
 	caffinated				= 1;
+	crashed					= false;
+	buzzed					= false;
+	timeTillCrash			= 0;
 	undying					= g_forceUndying.GetBool() ? !gameLocal.isMultiplayer : false;
 
 	spawnAnglesSet			= false;
@@ -4186,7 +4189,7 @@ bool idPlayer::Give( const char *statname, const char *value, bool dropped ) {
 
 	if ( !idStr::Icmp( statname, "health" ) ) {
 		if ( health >= boundaryHealth ) {
-			return false;
+		//	return false;
 		}
  		amount = atoi( value );
  		if ( amount ) {
@@ -7688,11 +7691,11 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	}
 
 	//LOU BEGIN
-	/*if(caffinated > 1)
+	if(caffinated > 1)
 	{
-		caffBob = 15 * caffinated;
+		caffBob = caffinated * .5;
 	}
-	else*/ 
+	else
 		caffBob = 1;
 	//LOU END
 // RAVEN BEGIN
@@ -8697,8 +8700,8 @@ void idPlayer::EvaluateControls( void ) {
 
 void idPlayer::Caffinate(void)
 {
-	caffinated ++;
-	gameLocal.Printf("%i", caffinated);
+	//caffinated ++;
+	gameLocal.Printf("Caffinated");
 }
 /*
 ==============
@@ -8712,6 +8715,19 @@ void idPlayer::AdjustSpeed( void ) {
 
 	caffSpeed = 0;
 
+	/*if(buzzed)
+	{
+		timeTillCrash = gameLocal.realClientTime + 10000;
+		gameLocal.Printf("Will Crash at: %f \n", timeTillCrash);
+		buzzed = false;
+	}
+	else if(gameLocal.realClientTime >= timeTillCrash)
+	{
+		gameLocal.Printf("Crashed at: %f \n", gameLocal.realClientTime);
+		buzzed = true;
+	}*/
+
+	//gameLocal.Printf("Current time: %i \n", gameLocal.realClientTime);
 
 	if ( spectating ) {
 		speed = pm_spectatespeed.GetFloat();
