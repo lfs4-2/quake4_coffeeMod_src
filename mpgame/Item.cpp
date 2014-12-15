@@ -763,17 +763,17 @@ bool idItem::Pickup( idPlayer *player ) {
 	}
 	else if (strcmp(spawnArgs.GetString("classname"), "item_health_small") == 0)
 	{
-		player->caffinated++;
+		player->Caffinate();
 		player->buzzed = true;
 	}
 	else if (strcmp(spawnArgs.GetString("classname"), "item_health_large") == 0)
 	{
-		player->caffinated++;
+		player->Caffinate();
 		player->buzzed = true;
 	}
 	else if (strcmp(spawnArgs.GetString("classname"), "item_health_mega") == 0)
 	{
-		player->caffinated++;
+		player->Caffinate();
 		player->buzzed = true;
 	}
 	

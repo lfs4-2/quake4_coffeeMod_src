@@ -8692,6 +8692,11 @@ void idPlayer::EvaluateControls( void ) {
 
 	oldFlags = usercmd.flags;
 
+	if(gameLocal.realClientTime >= timeTillCrash && buzzed)
+	{
+		crashed = true;
+	}
+
 	AdjustSpeed();
 
 	// update the viewangles
@@ -8700,8 +8705,11 @@ void idPlayer::EvaluateControls( void ) {
 
 void idPlayer::Caffinate(void)
 {
-	//caffinated ++;
-	gameLocal.Printf("Caffinated");
+	caffinated ++;
+	timeTillCrash = gameLocal.realClientTime + 30000;
+	crashed = false;
+	buzzed = true;
+	
 }
 /*
 ==============
@@ -8755,6 +8763,11 @@ void idPlayer::AdjustSpeed( void ) {
 
 	if(caffinated != NULL)
 		speed = 250 * caffinated;
+
+	if(crashed)
+	{
+		speed = 20;
+	}
 
 	speed *= PowerUpModifier(PMOD_SPEED);
 
@@ -9061,6 +9074,8 @@ void idPlayer::Move( void ) {
 		if ( gameLocal.isNewFrame ) {
 			DeathPush();
 			caffinated = 1;
+			crashed = false;
+			buzzed = false;
 			RunPhysics();
 		}
 	} else { 
