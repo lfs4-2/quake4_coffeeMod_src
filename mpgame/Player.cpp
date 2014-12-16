@@ -8714,8 +8714,11 @@ void idPlayer::EvaluateControls( void ) {
 
 void idPlayer::Caffinate(void)
 {
+	if(cups == 0)
+		timeTillCrash = gameLocal.realClientTime + 30000;
+	else
+		timeTillCrash += 10000;
 	cups++;
-	timeTillCrash = gameLocal.realClientTime + 15000;
 	crashed = false;
 	buzzed = true;
 	if(cups % 2 == 0)
