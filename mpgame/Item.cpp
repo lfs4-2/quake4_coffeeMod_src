@@ -757,24 +757,19 @@ bool idItem::Pickup( idPlayer *player ) {
 	 
 	if(strcmp(spawnArgs.GetString("classname"), "item_health_shard") == 0)
 	{
-		player->caffinated++;
-		player->buzzed = true;
-
+		player->Caffinate();
 	}
 	else if (strcmp(spawnArgs.GetString("classname"), "item_health_small") == 0)
 	{
 		player->Caffinate();
-		player->buzzed = true;
 	}
 	else if (strcmp(spawnArgs.GetString("classname"), "item_health_large") == 0)
 	{
 		player->Caffinate();
-		player->buzzed = true;
 	}
 	else if (strcmp(spawnArgs.GetString("classname"), "item_health_mega") == 0)
 	{
 		player->Caffinate();
-		player->buzzed = true;
 	}
 	
 	/*caffTime = (gameLocal.realClientTime += 5000);

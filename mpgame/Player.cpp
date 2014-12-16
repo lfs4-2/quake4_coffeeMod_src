@@ -7615,6 +7615,10 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 			bobmove = pm_walkbob.GetFloat() * ( 1.0f - bobFrac ) + pm_runbob.GetFloat() * bobFrac;
 		}
 
+		if(caffinated > 1)
+		{
+			bobmove = caffinated * 1.5;
+		}
 		// check for footstep / splash sounds
 		old = bobCycle;
 		bobCycle = (int)( old + bobmove * gameLocal.GetMSec() ) & 255;
@@ -7693,7 +7697,11 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	//LOU BEGIN
 	if(caffinated > 1)
 	{
-		caffBob = caffinated * .5;
+		caffBob = caffinated * 3;
+		if(caffinated > 3)
+		{
+			caffBob = 9;
+		}
 	}
 	else
 		caffBob = 1;
@@ -8762,11 +8770,11 @@ void idPlayer::AdjustSpeed( void ) {
 	//gameLocal.Printf("%f", speed);
 
 	if(caffinated != NULL)
-		speed = 250 * caffinated;
+		speed = 250 * (caffinated * .5);
 
 	if(crashed)
 	{
-		speed = 20;
+		speed = 50;
 	}
 
 	speed *= PowerUpModifier(PMOD_SPEED);
