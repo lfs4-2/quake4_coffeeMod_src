@@ -333,7 +333,7 @@ void idInventory::RestoreInventory( idPlayer *owner, const idDict &dict ) {
 	//Clear();
 
 	// health/armor
-	maxHealth		= dict.GetInt( "maxhealth", "100" );
+	maxHealth		= dict.GetInt( "maxhealth", "200" );
 	armor			= dict.GetInt( "armor", "50" );
 	maxarmor		= dict.GetInt( "maxarmor", "100" );
 
@@ -3309,7 +3309,7 @@ bool idPlayer::UserInfoChanged( void ) {
 		inventory.maxHealth = 200;
 		inventory.maxarmor = 200;
 	} else {
-		inventory.maxHealth = spawnArgs.GetInt( "maxhealth", "100" );
+		inventory.maxHealth = spawnArgs.GetInt( "maxhealth", "200" );
 		inventory.maxarmor = spawnArgs.GetInt( "maxarmor", "100" );
 	}
 
@@ -7580,7 +7580,7 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	float		delta;
 	float		speed;
 	float		f;
-	int			caffBob;
+	float		caffBob;
 
 
 	//
@@ -7616,10 +7616,13 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 			bobmove = pm_walkbob.GetFloat() * ( 1.0f - bobFrac ) + pm_runbob.GetFloat() * bobFrac;
 		}
 
-		if(caffinated > 1)
+		if(caffinated > 1 && caffinated < 3)
 		{
-			bobmove = caffinated * 5;
+			bobmove = caffinated * 1.5;
 		}
+		else if (caffinated >= 3)
+			bobmove = 4.5;
+
 		// check for footstep / splash sounds
 		old = bobCycle;
 		bobCycle = (int)( old + bobmove * gameLocal.GetMSec() ) & 255;
@@ -7696,16 +7699,17 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 	}
 
 	//LOU BEGIN
-	if(caffinated > 1)
+	if(caffinated > 1 && caffinated < 3)
 	{
-		caffBob = caffinated * 3;
-		if(caffinated > 3)
-		{
-			caffBob = 9;
-		}
+		caffBob = 1.5;
 	}
+	else if(caffinated >= 4)
+		caffBob = 2.5;
 	else
 		caffBob = 1;
+
+	if(crashed)
+		caffBob = 1.5;
 	//LOU END
 // RAVEN BEGIN
 // abahr: added gravity
@@ -8714,7 +8718,7 @@ void idPlayer::EvaluateControls( void ) {
 
 void idPlayer::Caffinate(void)
 {
-	if(cups == 0)
+	if(cups == 0 || crashed)
 		timeTillCrash = gameLocal.realClientTime + 30000;
 	else
 		timeTillCrash += 10000;
@@ -8726,7 +8730,10 @@ void idPlayer::Caffinate(void)
 		caffinated++;
 		gameLocal.Printf("Caffine Level: %i \n Cups of Coffee: %i \n", caffinated, cups);
 	}
-	
+	else if (cups == 1)
+	{
+		caffinated ++;
+	}
 }
 /*
 ==============
