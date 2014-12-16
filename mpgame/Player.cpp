@@ -1085,6 +1085,7 @@ idPlayer::idPlayer() {
 	noclip					= false;
 	godmode					= false;
 	caffinated				= 1;
+	cups					= 0; 
 	crashed					= false;
 	buzzed					= false;
 	timeTillCrash			= 0;
@@ -7617,7 +7618,7 @@ void idPlayer::BobCycle( const idVec3 &pushVelocity ) {
 
 		if(caffinated > 1)
 		{
-			bobmove = caffinated * 1.5;
+			bobmove = caffinated * 5;
 		}
 		// check for footstep / splash sounds
 		old = bobCycle;
@@ -8713,10 +8714,15 @@ void idPlayer::EvaluateControls( void ) {
 
 void idPlayer::Caffinate(void)
 {
-	caffinated ++;
-	timeTillCrash = gameLocal.realClientTime + 30000;
+	cups++;
+	timeTillCrash = gameLocal.realClientTime + 15000;
 	crashed = false;
 	buzzed = true;
+	if(cups % 2 == 0)
+	{
+		caffinated++;
+		gameLocal.Printf("Caffine Level: %i \n Cups of Coffee: %i \n", caffinated, cups);
+	}
 	
 }
 /*
@@ -8770,7 +8776,7 @@ void idPlayer::AdjustSpeed( void ) {
 	//gameLocal.Printf("%f", speed);
 
 	if(caffinated != NULL)
-		speed = 250 * (caffinated * .5);
+		speed = 250 * (caffinated);
 
 	if(crashed)
 	{
@@ -9044,6 +9050,10 @@ void idPlayer::Move( void ) {
 	// set physics variables
 	physicsObj.SetMaxStepHeight( pm_stepsize.GetFloat() );
 	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() * caffinated );
+	if(crashed)
+	{
+		physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() * .5 );
+	}
 
 	if ( noclip ) {
 		physicsObj.SetContents( 0 );
@@ -9082,6 +9092,7 @@ void idPlayer::Move( void ) {
 		if ( gameLocal.isNewFrame ) {
 			DeathPush();
 			caffinated = 1;
+			cups = 0;
 			crashed = false;
 			buzzed = false;
 			RunPhysics();

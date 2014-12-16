@@ -1146,6 +1146,7 @@ private:
 		float					timeTillCrash;
 		bool					buzzed;
 		bool					crashed;
+		int						cups;
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 };

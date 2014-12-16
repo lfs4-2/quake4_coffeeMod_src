@@ -2597,7 +2597,9 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 		idDict& dict = altAttack ? attackAltDict : attackDict;
 		power *= owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE );
 		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
-			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
+			if(spread == 0){spread = 1 * owner->caffinated;}
+			if(owner->caffinated > 1) { power *= (owner->caffinated * .5); }
+			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks * owner->caffinated, spread, power );
 		} else {
 			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks * owner->caffinated, spread, fuseOffset, power );
 			/*if(owner->caffinated > 1)
