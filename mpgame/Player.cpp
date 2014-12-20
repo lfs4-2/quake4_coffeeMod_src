@@ -8724,10 +8724,14 @@ void idPlayer::Caffinate(void)
      * 2. Maybe some of these "magic numbers" could be made into constants, or moved to a config file?
      * Other than that, good work. -gjb7
      */
+	/*
+	Thanks for the advice, I made replaced the numbers for my timer with contants in the player
+	header file -lfs4
+	*/
     if(cups == 0 || crashed)
-		timeTillCrash = gameLocal.realClientTime + 30000;
+		timeTillCrash = gameLocal.realClientTime + FIRSTCOFFEEBOOST;
 	else
-		timeTillCrash += 10000;
+		timeTillCrash += COFFEEBOOST;
 	cups++;
 	crashed = false;
 	buzzed = true;

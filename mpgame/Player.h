@@ -59,6 +59,10 @@ const int	IMPULSE_NUMBER_OF_BITS		= 8;							// allows for 2<<X impulses
 
 #define MAX_CONCURRENT_VOICES	3
 
+//Lou start
+const int FIRSTCOFFEEBOOST				= 30000;
+const int COFFEEBOOST					= 10000;
+
 // RAVEN BEGIN
 // jnewquist: Xenon weapon combo system
 #ifdef _XENON
