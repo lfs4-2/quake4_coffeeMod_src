@@ -8718,7 +8718,13 @@ void idPlayer::EvaluateControls( void ) {
 
 void idPlayer::Caffinate(void)
 {
-	if(cups == 0 || crashed)
+	/**
+     * Overall, I think it's a solid mod. I would only say a couple things.
+     * 1. Be consistent about using braces. I've seen a number of bugs crop up in various places because of a lack of them for an if statement.
+     * 2. Maybe some of these "magic numbers" could be made into constants, or moved to a config file?
+     * Other than that, good work. -gjb7
+     */
+    if(cups == 0 || crashed)
 		timeTillCrash = gameLocal.realClientTime + 30000;
 	else
 		timeTillCrash += 10000;
